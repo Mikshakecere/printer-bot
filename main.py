@@ -3,7 +3,7 @@ from discord.ext import commands
 from discord import app_commands
 import logging
 from dotenv import load_dotenv
-from racefetcher import fetch_ct_tiles
+from racefetcher import fetch_race_tiles, fetch_relevant_relics
 import os
 
 load_dotenv()
@@ -33,14 +33,15 @@ guild = discord.Object(id=GUILD_ID)
 
 @client.tree.command(name="fetch_races", description="Fetch all races for the given ct", guild=guild)
 async def fetch_races(interaction: discord.Interaction):
-    regulars, banners, relics = fetch_ct_tiles()
-    await interaction.response.send_message(f"Regulars (" + str(len(regulars)) + "):\n" + f"{regulars}\n" +
-                                            f"Banners (" + str(len(banners)) + "):\n" + f"{banners}\n" +
-                                            f"Relics (" + str(len(relics)) + "):\n" + f"{relics}")
+    regulars, banners, relics = fetch_race_tiles()
+    await interaction.response.send_message("Regulars (" + str(len(regulars)) + "):\n" + f"{regulars}\n" +
+                                            "Banners (" + str(len(banners)) + "):\n" + f"{banners}\n" +
+                                            "Relics (" + str(len(relics)) + "):\n" + f"{relics}")
 
 @client.tree.command(name="fetch_relics", description="Fetch all race relevant relics for the given ct", guild=guild)
-async def fetch_relics(interaction: discord.Interaction, ct_number: int):
-    await interaction.response.send_message(f"Placeholder text for race relevant relics from ct {ct_number}")
+async def fetch_relics(interaction: discord.Interaction):
+    relics = fetch_relevant_relics()
+    await interaction.response.send_message(f"Race relevant relics (" + str(len(relics)) + "):\n" + f"{relics}")
 
 @client.tree.command(name="fetch_all_info", description="Fetch all info for the given ct", guild=guild)
 async def fetch_relics(interaction: discord.Interaction, ct_number: int):
