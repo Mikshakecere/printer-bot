@@ -37,8 +37,8 @@ guild = discord.Object(id=GUILD_ID)
     app_commands.Choice(name="Banner", value="Banner"),
     app_commands.Choice(name="Relic", value="Relic")
 ])
-async def fetch_races(interaction: discord.Interaction, race_type: app_commands.Choice[str]=None):
-    regulars, banners, relics = fetch_race_tiles()
+async def fetch_races(interaction: discord.Interaction, race_type: app_commands.Choice[str]=None, ct_id: str=None):
+    regulars, banners, relics = fetch_race_tiles(ct_id)
     if race_type == None:
         await interaction.response.send_message("**Regulars (" + str(len(regulars)) + "):**\n" + f"``{regulars}``\n" +
                                                 "**Banners (" + str(len(banners)) + "):**\n" + f"``{banners}``\n" +

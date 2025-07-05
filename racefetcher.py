@@ -17,30 +17,26 @@ def fetch_ct_tiles(ct_id='0'):
     tiles = ct_resp['body']['tiles']
     return tiles
 
-race_tiles = fetch_ct_tiles()
+def fetch_race_tiles(ct_id):
+    tiles = fetch_ct_tiles(ct_id)
+    return fetch_regulars(tiles), fetch_banners(tiles), fetch_relics(tiles)
 
-def fetch_race_tiles():
-    return fetch_regulars(), fetch_banners(), fetch_relics()
-
-def fetch_regulars():
+def fetch_regulars(tiles):
     regular = []
-    tiles = race_tiles
     for tile in tiles:
         if tile['gameType'] == "Race" and tile['type'] == "Regular":
             regular.append(tile['id'])
     return sorted(regular)
 
-def fetch_banners():
+def fetch_banners(tiles):
     banners = []
-    tiles = race_tiles
     for tile in tiles:
         if tile['gameType'] == "Race" and tile['type'] == "Banner":
             banners.append(tile['id'])
     return sorted(banners)
 
-def fetch_relics():
+def fetch_relics(tiles):
     relics = []
-    tiles = race_tiles
     for tile in tiles:
         if tile['gameType'] == "Race" and tile['type'][:5] == "Relic":
             relics.append(tile['id'])
